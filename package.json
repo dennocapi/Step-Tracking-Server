@@ -1,0 +1,25 @@
+{
+  "name": "devskiller-step-tracking-server",
+  "private": true,
+  "scripts": {
+    "start": "node run.js",
+    "test": "node test.js",
+    "test:watch": "chokidar \"**/*.js\" -c \"npm test\" --silent --initial --ignore node_modules",
+    "dev": "nodemon run.js"
+  },
+  "devDependencies": {
+    "chokidar-cli": "2.1.0",
+    "jasmine": "^3.5.0",
+    "jasmine-console-reporter": "^3.1.0",
+    "jasmine-reporters": "^2.3.2"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "express": "^4.17.1",
+    "koa": "^2.11.0",
+    "moment": "^2.29.3",
+    "request": "^2.88.2",
+    "restify": "^8.5.1",
+    "ws": "^7.2.5"
+  }
+}
