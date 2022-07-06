@@ -1,4 +1,5 @@
 const WebSocketServer = require('ws').Server;
+const Joi = require('@hapi/joi');
 
 module.exports = (stepService) => {
   const WEBSOCKET_PORT = 8081;
@@ -8,22 +9,34 @@ module.exports = (stepService) => {
 
   // * TODO: Write the WebSocket API for receiving `update`s,
   //         using `stepService` for data persistence.
-  wsServer.onStart = ws => {
-    console.log("new Client connected")
 
-    ws.onMessage = data => {
-      console.log("Data", data)
-      data = JSON.parse(data)
-      stepService.add(data.username, data.ts, data.newSteps)
+  wsServer.on("connection", ws => {
+    console.log("New client connected");
+    ws.on("message", (data) => {
+      const update = JSON.parse(data)
+      dataValidation.validateAsync(update).catch((err) => {
+        console.log(err)
+        return
+      });
+      stepService.add(update.username, update.ts, update.newSteps)
+      const user = stepService.get(update.username)
+    });
+
+    ws.on("close", () => {
+      console.log("The client has connected");
+    });
+
+    ws.onerror = function () {
+      console.log("Some Error occurred")
     }
+  });
 
-    ws.onClose = () => {
-      console.log("Client disconnected")
-    }
-  }
-  // * TODO: Make sure to return an instance of a WebSocketServer,
-  //         which contains `close()` method.
-  const close = () => wsServer.close()
+  const dataValidation = Joi.object({
+    update_id: Joi.string().required(),
+    username: Joi.string().required(),
+    ts: Joi.number().required(),
+    newSteps: Joi.number().required(),
+  })
 
-  return wsServer,close;
+  return wsServer;
 }

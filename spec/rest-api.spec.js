@@ -14,7 +14,6 @@ describe('Rest API', () => {
     const store = testStore();
     stepService = StepService(store);
     restAPI = RestAPI(stepService);
-    console.log('Rest api-----------------------------', restApi)
     done();
   });
 
