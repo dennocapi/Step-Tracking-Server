@@ -7,9 +7,6 @@ module.exports = (stepService) => {
     port: WEBSOCKET_PORT
   });
 
-  // * TODO: Write the WebSocket API for receiving `update`s,
-  //         using `stepService` for data persistence.
-
   wsServer.on("connection", ws => {
     console.log("New client connected");
     ws.on("message", (data) => {
@@ -23,7 +20,7 @@ module.exports = (stepService) => {
     });
 
     ws.on("close", () => {
-      console.log("The client has connected");
+      console.log("The client has disconnected");
     });
 
     ws.onerror = function () {

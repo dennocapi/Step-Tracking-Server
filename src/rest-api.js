@@ -7,8 +7,6 @@ module.exports = (stepService) => {
   app.get('/users/:username/steps', (req, res) => {
     const username = req.params.username
     const user = stepService.get(username)
-    console.log('User', user)
-
 
     if (user) return res.status(200).json(user)
     return res.status(404).json({

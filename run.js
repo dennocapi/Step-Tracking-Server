@@ -1,5 +1,5 @@
 const StepTracker = require('./src/StepTracker');
-const store = require('./src/store.json');
+const store = require('./src/store');
 
-new StepTracker(store);
+new StepTracker(store());
 
